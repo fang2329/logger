@@ -7,8 +7,7 @@ import (
 
 
 func main(){
-	logger :=common_log.NewRealStLogger(0)
-	logger.DEBUG("HELLO")
-	logger.ERROR("ERROR")
-	logger.INFO("INFO")
+	common_log.LOG_DEBUG("HELLO")
+	common_log.LOG_ERROR("ERROR")
+	common_log.LOG_INFO("INFO")
 }

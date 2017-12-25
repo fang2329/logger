@@ -7,26 +7,21 @@ import(
 )
 
 func Test_debug(t *testing.T){
-    logger :=common_log.NewRealStLogger(0)
-    logger.DEBUG("test logger")
+    common_log.LOG_DEBUG("test logger")
 }
 
 func Test_info(t *testing.T){
-    logger :=common_log.NewRealStLogger(0)
-    logger.INFO("test logger")
+     common_log.LOG_INFO("test logger")
 }
 
 func Test_warning(t *testing.T){
-    logger :=common_log.NewRealStLogger(0)
-    logger.WARNING("test logger")
+     common_log.LOG_WARNING("test logger")
 }
 
 func Test_error(t *testing.T){
-    logger :=common_log.NewRealStLogger(0)
-    logger.ERROR("test logger")
+     common_log.LOG_ERROR("test logger")
 }
 
 func Test_critic(t *testing.T){
-    logger :=common_log.NewRealStLogger(0)
-    logger.CRITIC("test logger")
+     common_log.LOG_CRITIC("test logger")
 }

@@ -7,37 +7,32 @@ import(
 
 
 func Benchmark_debug(b *testing.B){
-    logger :=common_log.NewRealStLogger(0)
     for i := 0;i < b.N;i++{
-	logger.DEBUG("benchmark test")
+	common_log.LOG_DEBUG("benchmark test")
     }
 }
 
 
 func Benchmark_info(b *testing.B){
-    logger :=common_log.NewRealStLogger(0)
     for i := 0;i < b.N;i++{
-        logger.INFO("benchmark test")
+        common_log.LOG_INFO("benchmark test")
     }
 }
 
 func Benchmark_warning(b *testing.B){
-    logger :=common_log.NewRealStLogger(0)
     for i := 0;i < b.N;i++{
-        logger.WARNING("benchmark test")
+        common_log.LOG_WARNING("benchmark test")
     }
 }
 
 func Benchmark_error(b *testing.B){
-    logger :=common_log.NewRealStLogger(0)
     for i := 0;i < b.N;i++{
-        logger.ERROR("benchmark test")
+        common_log.LOG_ERROR("benchmark test")
     }
 }
 
 func Benchmark_critic(b *testing.B){
-    logger :=common_log.NewRealStLogger(0)
     for i := 0;i < b.N;i++{
-        logger.CRITIC("benchmark test")
+        common_log.LOG_CRITIC("benchmark test")
     }
 }

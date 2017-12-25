@@ -167,39 +167,39 @@ func (this *stLogger)FormatWriteLogMsg(level int,logMsg string)  {
 	}
 }
 
-func (this *stLogger)DEBUG(args ...interface{})  {
+func (this *stLogger)DEBUG(format string,args ...interface{})  {
 	if LOG_LEVEL_DEBUG < this.m_Level {
 		return
 	}
-	this.FormatWriteLogMsg(LOG_LEVEL_DEBUG,fmt.Sprintf("%s",args))
+	this.FormatWriteLogMsg(LOG_LEVEL_DEBUG,fmt.Sprintf(format,args...))
 }
 
-func (this *stLogger)INFO(args ...interface{})  {
+func (this *stLogger)INFO(format string,args ...interface{})  {
 	if LOG_LEVEL_INFO < this.m_Level {
 		return
 	}
-	this.FormatWriteLogMsg(LOG_LEVEL_INFO,fmt.Sprintf("%s",args))
+	this.FormatWriteLogMsg(LOG_LEVEL_INFO,fmt.Sprintf(format,args...))
 }
 
-func (this *stLogger)WARNING(args ...interface{})  {
+func (this *stLogger)WARNING(format string,args ...interface{})  {
 	if LOG_LEVEL_WARNING < this.m_Level{
 		return
 	}
-	this.FormatWriteLogMsg(LOG_LEVEL_WARNING,fmt.Sprintf("%s",args))
+	this.FormatWriteLogMsg(LOG_LEVEL_WARNING,fmt.Sprintf(format,args...))
 }
 
-func (this *stLogger)ERROR(args ...interface{})  {
+func (this *stLogger)ERROR(format string,args ...interface{})  {
 	if LOG_LEVEL_ERROR < this.m_Level {
 		return
 	}
-	this.FormatWriteLogMsg(LOG_LEVEL_ERROR,fmt.Sprintf("%s",args))
+	this.FormatWriteLogMsg(LOG_LEVEL_ERROR,fmt.Sprintf(format,args...))
 }
 
-func (this *stLogger)CRITIC(args ...interface{})  {
+func (this *stLogger)CRITIC(format string,args ...interface{})  {
 	if LOG_LEVEL_CRITIC < this.m_Level{
 		return
 	}
-	this.FormatWriteLogMsg(LOG_LEVEL_CRITIC,fmt.Sprintf("%s",args))
+	this.FormatWriteLogMsg(LOG_LEVEL_CRITIC,fmt.Sprintf(format,args...))
 }
 
 func (this *stLogger)RemoveTimeOutLogFolder(uiDayAgo uint)  {
@@ -213,15 +213,15 @@ func (this *stLogger)RemoveTimeOutLogFolder(uiDayAgo uint)  {
 func GetLoggerLevel(level int)string  {
 	switch level{
 	case LOG_LEVEL_DEBUG:
-		return "[DEBUG]  : "
+		return "[DEBUG]: "
 	case LOG_LEVEL_INFO:
-		return "[INFO]   : "
+		return "[INFO]: "
 	case LOG_LEVEL_WARNING:
 		return "[WARNING]: "
 	case LOG_LEVEL_ERROR:
-		return "[ERROR]  : "
+		return "[ERROR]: "
 	case LOG_LEVEL_CRITIC:
-		return "[CRITIC] : "
+		return "[CRITIC]: "
 	default:
 		return ""
 	}

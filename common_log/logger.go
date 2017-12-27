@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"errors"
 	"runtime"
+	"sync"
 )
 
 const(
@@ -36,6 +37,7 @@ type stLogger struct{
 	m_MaxLogFileNum int
 	m_MaxLogDataNum int
 	m_DelDay    uint
+	m_mu sync.Mutex
 }
 
 var(
@@ -141,6 +143,8 @@ func (this *stLogger)RenameTooBigFile()  {
 }
 
 func (this *stLogger)FormatWriteLogMsg(level int,logMsg string)  {
+	this.m_mu.Lock()
+	defer this.m_mu.Unlock()
 	now := time.Now()
 	//超时或者超过大小
 	_,fileSize := GetFileByteSize(this.m_FileName)

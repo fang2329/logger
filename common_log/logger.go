@@ -164,7 +164,7 @@ func (this *stLogger)FormatWriteLogMsg(level int,logMsg string)  {
 	if ok == false{
 		fmt.Println(GetLineNumFail)
 	}
-	time := time.Now().Format("2006-01-02 15:04:05")
+	time := time.Now().Format("2006-01-02 15:04:05.000")
 	_,err := Write(this.m_FileHandle,fmt.Sprintf("%s %s [%s:%d] %s\n",time,flag,file,line,logMsg))
 	if err != nil {
 		fmt.Println(WriteLogInfoFail,err.Error())

@@ -9,6 +9,7 @@ import (
 	"errors"
 	"runtime"
 	"sync"
+    "path"
 )
 
 const(
@@ -20,7 +21,7 @@ const(
 )
 
 const(
-	defaultDepth =2
+	defaultDepth =3
 	DEL_LOG_DAYS = 7
 	DAY_SECONDS = 24*3600
 )
@@ -65,7 +66,7 @@ func defaultNew() *stLogger  {
 func NewRealStLogger(level int) *stLogger {
 	logger := defaultNew()
 	logger.m_Depth = defaultDepth
-	
+
 	if level < LOG_LEVEL_DEBUG || level > LOG_LEVEL_CRITIC {
 		fmt.Println("level is invailed")
 	}
@@ -90,7 +91,7 @@ func (this *stLogger)obtainLofFile() error  {
 		fmt.Println(ArgsInvaild)
 		os.Exit(1)
 	}
-	
+
 	//时间文件夹
 	destFilePath := fmt.Sprintf("%s%d%d%d",logDir,time.Now().Year(),time.Now().Month(),
 		time.Now().Day())
@@ -105,7 +106,7 @@ func (this *stLogger)obtainLofFile() error  {
 	destFilePath =destFilePath+"/"
 	logFilePath:=fmt.Sprintf("%s%s_%d_%d%d%d%s",destFilePath,"log",1,time.Now().Year(),time.Now().Month(),
 		time.Now().Day(),".log")
-	
+
 	_,fileSize := GetFileByteSize(logFilePath)
 	if flag && fileSize > int64(this.m_MaxLogDataNum){
 		this.RenameTooBigFile()
@@ -114,7 +115,7 @@ func (this *stLogger)obtainLofFile() error  {
 	if err != nil{
 		fmt.Println( OpenFileFail,err.Error())
 	}
-		
+
 	this.m_FileHandle = fileHandle
 	this.m_FileName = logFilePath
 	//设置下次创建文件的时间
@@ -123,8 +124,8 @@ func (this *stLogger)obtainLofFile() error  {
 	nextDay = time.Date(nextDay.Year(),nextDay.Month(),nextDay.Day(),0,0,0,
 		0,nextDay.Location())
 	this.m_nexDay = nextDay
-	
-	
+
+
 	return nil
 }
 
@@ -137,7 +138,7 @@ func (this *stLogger)RenameTooBigFile()  {
 			time.Now().Day(),".log")
 		oldFileName := fmt.Sprintf("%s%s_%d_%d%d%d%s",destFilePath,"log",i-1,time.Now().Year(),time.Now().Month(),
 			time.Now().Day(),".log")
-		
+
 		os.Rename(oldFileName,newFileName)
 	}
 }
@@ -159,13 +160,14 @@ func (this *stLogger)FormatWriteLogMsg(level int,logMsg string)  {
 		this.RemoveTimeOutLogFolder(this.m_DelDay+uint(i))
 	}
 	flag := GetLoggerLevel(level)
-	
+
 	_,file,line,ok := runtime.Caller(this.m_Depth)
 	if ok == false{
 		fmt.Println(GetLineNumFail)
 	}
+    name := path.Base(file)
 	time := time.Now().Format("2006-01-02 15:04:05.000")
-	_,err := Write(this.m_FileHandle,fmt.Sprintf("%s %s [%s:%d] %s\n",time,flag,file,line,logMsg))
+	_,err := Write(this.m_FileHandle,fmt.Sprintf("%s %s [%s:%d] %s\n",time,flag,name,line,logMsg))
 	if err != nil {
 		fmt.Println(WriteLogInfoFail,err.Error())
 	}
@@ -217,15 +219,15 @@ func (this *stLogger)RemoveTimeOutLogFolder(uiDayAgo uint)  {
 func GetLoggerLevel(level int)string  {
 	switch level{
 	case LOG_LEVEL_DEBUG:
-		return "[DEBUG]: "
+		return "[DEBUG]:"
 	case LOG_LEVEL_INFO:
-		return "[INFO]: "
+		return "[INFO]:"
 	case LOG_LEVEL_WARNING:
-		return "[WARNING]: "
+		return "[WARNING]:"
 	case LOG_LEVEL_ERROR:
-		return "[ERROR]: "
+		return "[ERROR]:"
 	case LOG_LEVEL_CRITIC:
-		return "[CRITIC]: "
+		return "[CRITIC]:"
 	default:
 		return ""
 	}
